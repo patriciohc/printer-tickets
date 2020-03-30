@@ -1,0 +1,7 @@
+add this line to file /etc/udev/rules.d/51-usb-device.rules
+
+SUBSYSTEM=="usb", ATTRS{idVendor}=="6868", ATTRS{idProduct}=="0200", MODE="0666" TAG+="uaccess"
+
+and execute this commnad
+
+sudo udevadm control --reload-rules

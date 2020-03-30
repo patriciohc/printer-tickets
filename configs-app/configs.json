@@ -1,0 +1,17 @@
+{
+    "userConfigFile": "configs-user/configs.json",
+    "devices": [{
+        "id": "1",
+        "name": "ECLine 58110",
+        "idVendor": "26728",
+        "idProduct": "512",
+        "protocol": "escpos"
+    }],
+
+    "protocols": [
+        {
+            "name": "escpos",
+            "dsc": "ESC/POS"
+        }
+    ]
+}
