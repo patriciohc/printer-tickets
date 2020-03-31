@@ -12,10 +12,10 @@ function getPrinter(printerConfig) {
 }
 
 function getListPrinters() {
+    let listDeviceDsc = [];
     const escpos = require('escpos');
     escpos.USB = require('escpos-usb');
     new escpos.USB();
-    let listDeviceDsc = [];
     let listDevice = escpos.USB.findPrinter();
     for (let i = 0; i < listDevice.length; i++) {
         let idVendor = listDevice[i].deviceDescriptor['idVendor'];

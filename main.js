@@ -20,8 +20,8 @@ function createWindow() {
 app.whenReady().then(() => {
     tray = new Tray('./img/icon-printer.png')
     const contextMenu = Menu.buildFromTemplate([
-        { label: 'Abrir', type: 'radio', click: createWindow },
-        { label: 'Cerrar', type: 'radio', click: closeApp }
+        { label: 'Abrir', type: 'normal', click: createWindow },
+        { label: 'Cerrar', type: 'normal', click: closeApp }
     ])
     tray.setToolTip('Sistema de impresion de tickets')
     tray.setContextMenu(contextMenu);

@@ -11,8 +11,8 @@ var server = null;
 
 
 function getUserConfig() {
-  const text = fs.readFileSync(fileConfig);
-  return JSON.parse(text);
+    const text = fs.readFileSync(fileConfig);
+    return JSON.parse(text);
 }
 
 function initialize() {
@@ -34,7 +34,23 @@ function initServer() {
 async function httpListener(req, res) {
     let body = await getData(req);
     console.log("body: ", body);
-    printer.printTest();
+    body = {
+        'socio': {
+            'razon_social': 'Papeleria Payito'    
+        },
+        'unidad': {
+            'direccion': '2 Sur no 2 Puebla centro',
+            'telefono': '(222) 2-44-60-70'                    
+        },
+        'data': {
+            'fecha': '2017-04-02 3:18',
+            'compania': 'Telcel',
+            'folio': '1234567890',
+            'telefono': '1234567890',
+            'descripcion': 'Recarca $20'
+        }
+    }
+    printer.printTest
     sendData(res, {success: true});
 }
 

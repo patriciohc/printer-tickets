@@ -8,15 +8,15 @@ const fileConfig = appConfig.userConfigFile;
 window.addEventListener('DOMContentLoaded', () => {
 });
 
-window.getUserConfig = function() {
-  const text = fs.readFileSync(fileConfig);
-  return JSON.parse(text);
+window.getUserConfig = function () {
+    const text = fs.readFileSync(fileConfig);
+    return JSON.parse(text);
 }
 
-window.saveUserConfigs = function(userConfig) {
-  const fileConfig = appConfig.userConfigFile;
-  fs.writeFileSync(fileConfig, JSON.stringify(userConfig));
-  printerService.initialize();
+window.saveUserConfigs = function (userConfig) {
+    const fileConfig = appConfig.userConfigFile;
+    fs.writeFileSync(fileConfig, JSON.stringify(userConfig));
+    printerService.initialize();
 }
 
 window.getListPrinters = printerDriver.getListPrinters;
