@@ -18,7 +18,12 @@ function getUserConfig() {
 function initialize() {
     userConfig = getUserConfig();
     let deviceConfig = appConfig.devices.find(item => item.id == userConfig.printerId);
-    printer = printerDrivers.getPrinter(deviceConfig);
+    try {
+        printer = printerDrivers.getPrinter(deviceConfig);
+    } catch (error) {
+        console.log(error);
+        return;
+    }
     initServer();
 }
 

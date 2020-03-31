@@ -9,6 +9,11 @@ var app = new Vue({
             printerId: "0",
             servicePort: ""
         },
+        currentConfig: {
+            printerId: "",
+            printer: {},
+            servicePort: ""
+        }
     },
     methods: {
         searchPrinters: function () {
@@ -16,12 +21,16 @@ var app = new Vue({
         },
         saveConfigs: function() {
             saveUserConfigs(this.userConfig);
+            let printer = this.printers.find(item => item.id == this.userConfig.printerId);
+            this.currentConfig = {...this.userConfig, printer};
         },
         testPrinter: printerTest
     },
     created() {
         this.printers = getListPrinters();
         this.userConfig = getUserConfig();
+        let printer = this.printers.find(item => item.id == this.userConfig.printerId);
+        this.currentConfig = {...this.userConfig, printer};
     }
 })
 
