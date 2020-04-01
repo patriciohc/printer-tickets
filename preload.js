@@ -16,8 +16,13 @@ window.getUserConfig = function () {
 window.saveUserConfigs = function (userConfig) {
     const fileConfig = appConfig.userConfigFile;
     fs.writeFileSync(fileConfig, JSON.stringify(userConfig));
-    printerService.initialize();
+}
+
+window.getListPrintersConfig = function () {
+    return appConfig.devices;
 }
 
 window.getListPrinters = printerDriver.getListPrinters;
 window.printerTest = printerService.printTest;
+window.getPrinterStatus = printerService.getPrinterStatus;
+window.printerInitialize = printerService.initialize;

@@ -14,21 +14,27 @@
 <body>
   <div id="app" class="main-container">
     <div>
-      <h5>Configuracion actual</h5>
+      <h4>Configuracion actual</h4>
       <div>
-        <strong>Impresora:  {{currentConfig.printer['name']}}</strong>
-        <strong>Puerto:  {{currentConfig.servicePort}}</strong>
+        <strong>
+          Impresora: {{currentConfig?.printer?.name}}
+          <span style="color:green" v-if="printerStatus"> activa</span>
+          <span style="color:red" v-if="!printerStatus"> no activa</span>
+        </strong>
+        <br>
+        <strong>Puerto: {{currentConfig.servicePort}}</strong>
       </div>
       <div class="form-actions">
-        <button v-on:click="testPrinter" class="btn btn-form btn-primary">Imprimir Ticket de prueba</button>
-      </div>      
+        <button v-on:click="testPrinter" :disabled="!printerStatus" class="btn btn-mini btn-positive">Impresion de prueba</button>
+        <button v-on:click="reconect" class="btn btn-mini btn-primary">Reconectar</button>
+      </div>
       <br>
-      <h5>Configuraciones de la impresora</h5>
+      <h4>Cambiar configuracion</h4>
       <div class="form-group">
         <label>Seleccione impresora</label>
         <select class="form-control" v-model="userConfig.printerId">
             <option v-bind:value="0" disabled>Seleccione impresora</option>
-            <option v-for="printer in printers" v-bind:value="printer.id">{{printer.name}}</option>
+            <option v-for="printer in printersSystem" v-bind:value="printer.id">{{printer.name}}</option>
         </select>
       </div>
       <div class="form-actions">

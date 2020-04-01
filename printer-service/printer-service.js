@@ -18,13 +18,11 @@ function getUserConfig() {
 function initialize() {
     userConfig = getUserConfig();
     let deviceConfig = appConfig.devices.find(item => item.id == userConfig.printerId);
-    try {
-        printer = printerDrivers.getPrinter(deviceConfig);
-    } catch (error) {
-        console.log(error);
-        return;
+    printer = printerDrivers.getPrinter(deviceConfig);
+    console.log('initialize function, ', printer);
+    if (printer.getPrinterStatus()) {
+        initServer();
     }
-    initServer();
 }
 
 function initServer() {
@@ -36,26 +34,14 @@ function initServer() {
         .listen(userConfig.servicePort);
 }
 
+function getPrinterStatus() {
+    console.log('printer: ', printer);
+    return printer != null && printer.getPrinterStatus();
+}
+
 async function httpListener(req, res) {
     let body = await getData(req);
     console.log("body: ", body);
-    body = {
-        'socio': {
-            'razon_social': 'Papeleria Payito'    
-        },
-        'unidad': {
-            'direccion': '2 Sur no 2 Puebla centro',
-            'telefono': '(222) 2-44-60-70'                    
-        },
-        'data': {
-            'fecha': '2017-04-02 3:18',
-            'compania': 'Telcel',
-            'folio': '1234567890',
-            'telefono': '1234567890',
-            'descripcion': 'Recarca $20'
-        }
-    }
-    printer.printTest
     sendData(res, {success: true});
 }
 
@@ -91,6 +77,7 @@ function printTest() {
 
 module.exports = {
     initialize,
-    printTest
+    printTest,
+    getPrinterStatus
 }
 

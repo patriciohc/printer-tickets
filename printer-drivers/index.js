@@ -15,8 +15,13 @@ function getListPrinters() {
     let listDeviceDsc = [];
     const escpos = require('escpos');
     escpos.USB = require('escpos-usb');
-    new escpos.USB();
-    let listDevice = escpos.USB.findPrinter();
+    try {
+        new escpos.USB();
+        var listDevice = escpos.USB.findPrinter();
+    } catch (error) {
+        console.log('No se puedieron obtener impresoras', error);
+        return listDeviceDsc;
+    }
     for (let i = 0; i < listDevice.length; i++) {
         let idVendor = listDevice[i].deviceDescriptor['idVendor'];
         let idProduct = listDevice[i].deviceDescriptor['idProduct'];

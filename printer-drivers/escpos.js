@@ -7,16 +7,17 @@ var printer = null;
 var device = null;
 
 function initDevice(idVendor, idProduct) {
-    device = new escpos.USB(idVendor, idProduct);
-    printer = new escpos.Printer(device, options);
+    try {
+        device = new escpos.USB(idVendor, idProduct);
+        printer = new escpos.Printer(device, options);
+    } catch (error) {
+        console.log('No se pudo inicializar la impresora', error);
+    }
+
 }
 
-function printProducts() {
-
-}
-
-function printHead() {
-
+function getPrinterStatus() {
+    return printer != null;
 }
 
 /**
@@ -129,8 +130,7 @@ function printTest() {
 
 module.exports = {
     initDevice,
-    printProducts,
-    printHead,
     printTikect,
-    printTest
+    printTest,
+    getPrinterStatus
 }
