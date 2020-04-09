@@ -1,6 +1,5 @@
 const appConfig = require('../configs-app/configs.json');
 
-
 function getPrinter(printerConfig) {
     switch (printerConfig.protocol) {
         case 'escpos': {
@@ -8,9 +7,16 @@ function getPrinter(printerConfig) {
             printer.initDevice();
             return printer;
         }
+        default: {
+            return null;
+        }
     }
 }
 
+/** 
+ * Todos los drivers, deben implementar las funciones
+ * initDevice, printTikect, printTest, getPrinterStatus
+*/
 function getListPrinters() {
     let listDeviceDsc = [];
     const escpos = require('escpos');

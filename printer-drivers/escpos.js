@@ -1,3 +1,7 @@
+/** 
+ * Todos los drivers, deben implementar las funciones
+ * initDevice, printTikect, printTest, getPrinterStatus
+*/
 const escpos = require('escpos');
 escpos.USB = require('escpos-usb');
 

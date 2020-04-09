@@ -1,31 +1,32 @@
-const { app, BrowserWindow, Menu, Tray } = require('electron');
+const { app, BrowserWindow, Menu, Tray, nativeImage } = require('electron');
 const path = require('path');
-const printerService = require('./printer-service/printer-service');
+const services = require('./services');
 
 var tray = null
 
-function createWindow() {
-    const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-        webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
-        }
-    })
-    mainWindow.loadFile('gui/index.html');
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools()
-}
+//function createWindow() {
+//    const mainWindow = new BrowserWindow({
+//        width: 800,
+//        height: 600,
+//        webPreferences: {
+//            preload: path.join(__dirname, 'preload.js')
+//        }
+//    })
+//    mainWindow.loadFile('gui/index.html');
+//    // Open the DevTools.
+//    mainWindow.webContents.openDevTools()
+//}
 
 app.whenReady().then(() => {
-    tray = new Tray('./img/icon-printer.png')
+    const image = nativeImage.createFromPath('./img/icon-printer.png');
+    tray = new Tray(image);
     const contextMenu = Menu.buildFromTemplate([
-        { label: 'Abrir', type: 'normal', click: createWindow },
+        { label: 'Reiniciar servicio', type: 'normal', click: services.restart },
         { label: 'Cerrar', type: 'normal', click: closeApp }
     ])
     tray.setToolTip('Sistema de impresion de tickets')
     tray.setContextMenu(contextMenu);
-    printerService.initialize();
+    services.start();
 })
 
 
@@ -34,6 +35,7 @@ app.on('window-all-closed', function () {
 })
 
 function closeApp() {
+    services.quit();
     if (process.platform !== 'darwin') app.quit()
 }
 
