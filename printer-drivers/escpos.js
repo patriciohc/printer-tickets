@@ -27,7 +27,7 @@ function getPrinterStatus() {
 /**
  * Ejemplo de datos recibidos
 {
-    'ticket_tipo': recarga|regular
+    'tipo': 'recarga'|'regular'
     'socio': {
         'razon_social': 'Papeleria Payito'    
     },
