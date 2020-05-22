@@ -27,7 +27,10 @@ function getPrinterStatus() {
 /**
  * Ejemplo de datos recibidos
 {
+    'no_ticket': string,
     'tipo': 'recarga'|'regular'
+    'fecha': string,
+    'total': number,
     'socio': {
         'razon_social': 'Papeleria Payito'    
     },
@@ -35,14 +38,14 @@ function getPrinterStatus() {
         'direccion': '2 Sur no 2 Puebla centro',
         'telefono': '(222) 2-44-60-70'                    
     },
-    'recarga': {
+    'items': {
         'fecha': '2017-04-02 3:18',
         'compania': 'Telcel',
         'folio': '1234567890',
         'telefono': '1234567890',
         'descripcion': 'Recarca $20'
     },
-    "productos": [{
+    "items": [{
         "producto": "Libreta Scribe cuadro 7 mm",
         "cantidad": "100",
         "total": "1500"
@@ -50,6 +53,7 @@ function getPrinterStatus() {
 }
 */
 function printTikect(data) {
+    console.log(data);
     device.open(function (error) {
         if (error) {
             console.error(error);
@@ -59,32 +63,56 @@ function printTikect(data) {
             printer
                 .font('a')
                 .align('ct')
-                .style('bu')
                 .size(1, 1)
+                .style('B')
                 .text(data.socio.razon_social)
-                .text(data.unidad.direccion + ", " + data.unidad.telefono)
-            
+                .style('NORMAL')
+                .text('')
+                .text(data.unidad.direccion + ", tel: " + data.unidad.telefono)
+                .text('No ticket: ' + data.no_ticket)
+                .text('Fecha: ' + data.fecha)
+                .text('')
+                .align('lt')
             if (data.tipo == 'recarga') {
                 printer
                     .text('RECARGA TELEFONICA')
-                    .text('Fecha: ' + data.data.fecha)
-                    .text('Compania: ' + data.data.compania)
-                    .text('Folio: ' + data.data.folio)
-                    .text('Telefono: ' + data.data.telefono)
-                    .text('Descripcion: ' + data.data.descripcion)
+                    .text('Compania: ' + data.items.compania)
+                    .text('Folio: ' + data.items.folio)
+                    .text('Telefono: ' + data.items.telefono)
+                    .text('Descripcion: ' + data.items.descripcion)
             } else if (data.tipo == 'regular') {
-                let printerItems = getDataPrinterItem(data.productos)
-                printer
-                    .table(["Concepto", "Cantidad", "Total"])
-                    .tableCustom(printerItems, { encoding: 'cp857', size: [1, 1] } // Optional
-                )
+                // let printerItems = getDataPrinterItem(data.items)
+                for (let i = 0; i < data.items.length; i++) {
+                    let item = data.items[i];
+                    let name = item.cantidad + ' - ' + item.producto;
+                    let total = '$' + item.total;
+                    let text = completeText(name, total);
+                    printer.text(text);
+                }
+                //printer
+                    // .table(["Concepto", "Cantidad", "Total"])
+                //    .tableCustom(printerItems, { encoding: 'cp857', size: [1, 1] } // Optional
+                //)
             }
+            printer
+                .style('B')
+                .text('')
+                .align('rt')
+                .text('TOTAL: $' + data.total)
+                .text('')
             printer.cut().close();
         } catch(error) {
             console.error(error);
         }
 
     });
+}
+
+function completeText(name, total) {
+    let white = '                                   ';
+    let size = name.length + total.length;
+    let missing = 32 - (size % 32);
+    return name + white.substring(1, missing) + total;
 }
 
 function getDataPrinterItem(items) {

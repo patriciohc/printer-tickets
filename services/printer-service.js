@@ -73,7 +73,6 @@ function printTestCtr(req, res) {
 
 function printTicketCtr(req, res) {
     const ticket = req.body;
-    console.log('ticket recibido: ', ticker);
     if (printer == null) {
         res.json({message: "La impresora no ha sido inicializada", success: false});
         return;
