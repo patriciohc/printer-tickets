@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/patriciohc/printer-tickets#readme",
   "dependencies": {
-    "electron": "^8.2.0",
+    "electron": "^13.6.6",
     "escpos": "^3.0.0-alpha.3",
     "escpos-usb": "^3.0.0-alpha.2",
     "fs": "0.0.1-security"
